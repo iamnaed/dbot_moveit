@@ -46,14 +46,14 @@ int main(int argc, char** argv)
     // We will get the name of planning plugin we want to load
     // from the ROS parameter server, and then load the planner
     // making sure to catch all exceptions.
-    if(!motion_planning_api_tutorial_node->get_parameter("planning_plugin", planner_plugin_name))
+    if(!motion_planning_api_tutorial_node->get_parameter("ompl.planning_plugin", planner_plugin_name))
         RCLCPP_FATAL(LOGGER, "Could not find planner plugin name: %s", planner_plugin_name.c_str());
         
     try
     {
         planner_plugin_loader.reset(
             new pluginlib::ClassLoader<planning_interface::PlannerManager>(
-                "movei_core", 
+                "moveit_core", 
                 "planning_interface::PlannerManager"
             )
         );
@@ -89,11 +89,10 @@ int main(int argc, char** argv)
     moveit::planning_interface::MoveGroupInterface move_group(motion_planning_api_tutorial_node, PLANNING_GROUP);
 
     namespace rvt = rviz_visual_tools;
-    moveit_visual_tools::MoveItVisualTools visual_tools(motion_planning_api_tutorial_node, "base_link", "move_group_tutorial", move_group.getRobotModel());
+    moveit_visual_tools::MoveItVisualTools visual_tools(motion_planning_api_tutorial_node, "base_link", rvt::RVIZ_MARKER_TOPIC, move_group.getRobotModel());
     visual_tools.enableBatchPublishing();
     visual_tools.deleteAllMarkers();
     visual_tools.trigger();
-
 
     /* Remote control is an introspection tool that allows users to step through a high level script
         via buttons and keyboard shortcuts in RViz */

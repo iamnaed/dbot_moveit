@@ -63,6 +63,7 @@ ament_target_dependencies(
   "rclcpp"
   "moveit_visual_tools"
   "pluginlib"
+  "moveit_core"
 )
 
 install(
