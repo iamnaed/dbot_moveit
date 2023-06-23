@@ -9,7 +9,7 @@ def generate_launch_description():
 
     # MoveGroupInterface demo executable
     dbot_moveit_node = Node(
-        name="dbot_moveit",
+        name="dbot_moveit_node",
         package="dbot_moveit",
         executable="dbot_moveit",
         output="screen",

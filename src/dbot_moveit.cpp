@@ -52,7 +52,37 @@ int main(int argc, char ** argv)
     moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
   };  
 
+  // Test
+  auto default_planner_id = move_group_interface.getDefaultPlannerId("dbot_arm");
+  RCLCPP_INFO(logger, "Default Planner ID: '%s'", default_planner_id.c_str());
 
+  auto default_planning_pipeline_id = move_group_interface.getDefaultPlanningPipelineId();
+  RCLCPP_INFO(logger, "Default Planning Pipeline ID: '%s'", default_planning_pipeline_id.c_str());
+
+  auto planner_id = move_group_interface.getPlannerId();
+  RCLCPP_INFO(logger, "Planner ID: '%s'", planner_id.c_str());
+
+  auto planning_frame = move_group_interface.getPlanningFrame();
+  RCLCPP_INFO(logger, "Planning Frame: '%s'", planning_frame.c_str());
+
+  auto planning_pipeline_id = move_group_interface.getPlanningPipelineId();
+  RCLCPP_INFO(logger, "Planning Pipeline ID: '%s'", planning_pipeline_id.c_str());
+
+  auto planning_time = move_group_interface.getPlanningTime();
+  RCLCPP_INFO(logger, "Planning Time: '%f's", planning_time);  
+
+  moveit_msgs::msg::PlannerInterfaceDescription desc;
+  move_group_interface.getInterfaceDescription(desc);
+  RCLCPP_INFO(logger, "Interface Description loaded by action server: '%s'", desc.name.c_str());  
+
+  std::vector<moveit_msgs::msg::PlannerInterfaceDescription> descs;
+  move_group_interface.getInterfaceDescriptions(descs);
+  RCLCPP_INFO(logger, "All Interface Description loaded by action server");
+  for (auto &d : descs)
+  {
+      RCLCPP_INFO(logger, "\tInterface Description: '%s'", d.name.c_str());  
+  }
+  
   // Target
   auto const target_pose = []{
     geometry_msgs::msg::Pose msg;
